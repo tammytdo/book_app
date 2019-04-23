@@ -28,12 +28,23 @@ app.get('/test', (request, response) => {
 
 
 // Creates a new search to the Google Books API
+
+let url = 'https://www.googleapis.com/books/v1/volumes?q=';
+
 app.post('/searches', (request, response) => {
-  superagent.get(`https://www.googleapis.com/books/v1/volumes?q=+intitle:${request.body.search[0]}`).then(result => {
-    console.log(result.body);
-    response.send(result.body.items[0].volumeInfo.title);
+  superagent.get(`${url}+intitle:${request.body.search.slice(0,9)}`)
+  .then(result => {
+    // console.log(result.body);
+    let returnedSearches = result.body.items;
+    let tenBooks = returnedSearches.map(item => {
+      new GetBook(item);
+    })
+    // console.log(returnedSearches)
+    response.send(tenBooks);
+    console.log(tenBooks)
   })
-  console.log(request.body);
+    // .catch(console.error);
+  // console.log(request.body.search);
 })
 
 // Catch-all
@@ -41,7 +52,12 @@ app.post('/searches', (request, response) => {
 
 // HELPER FUNCTIONS
 // Book constructor
-
+function GetBook(dataObj) {
+  this.bookTitle = dataObj.volumeInfo.title || "Title unavailable";
+  this.bookAuthor = dataObj.volumeInfo.authors || "Author unavailable";
+  this.publishedDate = dataObj.volumeInfo.publishedDate || "Published Date unavailable";
+  // this.thumbnail = dataObj. || "Image unavailable";
+};
 
 
 
