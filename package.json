@@ -1,0 +1,25 @@
+{
+  "name": "book_app",
+  "version": "1.0.0",
+  "description": "app to collect your favorite books",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tammytdo/book_app.git"
+  },
+  "author": "tammy do, joseph hangarter",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tammytdo/book_app/issues"
+  },
+  "homepage": "https://github.com/tammytdo/book_app#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "superagent": "^5.0.2"
+  }
+}
