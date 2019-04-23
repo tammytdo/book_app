@@ -8,6 +8,8 @@ const superagent = require('superagent');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.static('./public'));
+
 // Application Middleware
 app.use(express.urlencoded({extended: true}));
 
@@ -19,6 +21,11 @@ app.set('view-engine', 'ejs');
 app.get('/', (request, response) => {
   response.render('pages/index.ejs');
 })
+
+app.get('/test', (request, response) => {
+  response.render('pages/index.ejs');
+})
+
 
 // Creates a new search to the Google Books API
 app.post('/searches', (request, response) => {
