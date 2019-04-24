@@ -18,7 +18,7 @@ app.set('view-engine', 'ejs');
 
 // API Routes
 // Renders the search form
-app.get('/', (request, response) => {
+app.get('*', (request, response) => {
   response.render('pages/index.ejs');
 })
 
