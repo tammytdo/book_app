@@ -29,19 +29,22 @@ app.get('/test', (request, response) => {
 
 // Creates a new search to the Google Books API
 
-let url = 'https://www.googleapis.com/books/v1/volumes?q=';
-
 app.post('/searches', (request, response) => {
+  let url = 'https://www.googleapis.com/books/v1/volumes?q=';
   superagent.get(`${url}+intitle:${request.body.search.slice(0,9)}`)
   .then(result => {
-    // console.log(result.body);
+    // console.log('Result ' + result.body.items[0].volumeInfo.title);
+
     let returnedSearches = result.body.items;
-    let tenBooks = returnedSearches.map(item => {
-      new GetBook(item);
+    let numBooksReturned = returnedSearches.map(item => {
+      return new Books(item);
     })
     // console.log(returnedSearches)
-    response.send(tenBooks);
-    console.log(tenBooks)
+    // console.log('Ten books: ', numBooksReturned[0].bookTitle);
+
+    response.send(numBooksReturned);
+
+
   })
     // .catch(console.error);
   // console.log(request.body.search);
@@ -52,10 +55,10 @@ app.post('/searches', (request, response) => {
 
 // HELPER FUNCTIONS
 // Book constructor
-function GetBook(dataObj) {
+function Books(dataObj) {
   this.bookTitle = dataObj.volumeInfo.title || "Title unavailable";
-  this.bookAuthor = dataObj.volumeInfo.authors || "Author unavailable";
-  this.publishedDate = dataObj.volumeInfo.publishedDate || "Published Date unavailable";
+  // this.bookAuthor = dataObj.volumeInfo.authors || "Author unavailable";
+  // this.publishedDate = dataObj.volumeInfo.publishedDate || "Published Date"; unavailable";
   // this.thumbnail = dataObj. || "Image unavailable";
 };
 
