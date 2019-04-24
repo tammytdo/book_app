@@ -3,10 +3,15 @@
 // Application Dependencies
 const express = require('express');
 const superagent = require('superagent');
+const pg = require('pg');
 
 // Application Setup
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const client = new pg.Client(process.env.DATABASE_URL);
+client.on('error', console.error);
+client.connect();
 
 app.use(express.static('./public'));
 
@@ -59,6 +64,9 @@ function Books(dataObj) {
   this.bookTitle = dataObj.volumeInfo.title || "Title unavailable";
   this.bookAuthor = dataObj.volumeInfo.authors || "Author unavailable";
   this.publishedDate = dataObj.volumeInfo.publishedDate || "Published Date unavailable";
+  this.isbn10 = dataObj.volumeInfo.industryIdentifiers[0].identifier || "ISBN10 unavailable";
+  this.description = dataObj.volumeInfo.description || "Description unavailable" 
+  // this.isbn13 = dataObj.volumeInfo.industryIdentifiers[1].identifier || "ISBN13 unavailable";
   // Come back and edit the rendering
   this.thumbnail = dataObj.volumeInfo.thumbnail || "Image unavailable";
 };
