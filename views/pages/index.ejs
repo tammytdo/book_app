@@ -1,28 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Book Collection</title>
+    <title>Book Shelf</title>
     <link rel="stylesheet" href="/styles/base.css" type="text/css">
   </head>
   <body>
+    <header>
+      <!-- Logo Here -->
+      <h1>Book Shelf</h1>
+      
+    </header>
+
     <main>
-      <h4>Search by Title or Author</h4>
+      <h3>What would you like to search?</h3>
+      <input type="text" name="search" placeholder="Enter a title or author" required>
+
+      <h3>Search by</h3>
       <form action="/searches" method="post">
-        <input type="text" name="search" placeholder="Enter a title or author" required>
+        <!-- Radio button for Title -->
         <fieldset>
           <label for="title">
             <span>Title</span>
             <input type="radio" name="search" value="title" required>
           </label>
         </fieldset>
+
+        <!-- Radio button for Author -->
         <fieldset>
           <label for="author">
             <span>Author</span>
             <input type="radio" name="search" value="author" required>
           </label>
         </fieldset>
-        <button type="submit">Search the Google Books API</button>
+
+        <button type="submit">Find My Book</button>
       </form>
     </main>
+
   </body>
 </html>
