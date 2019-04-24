@@ -1,9 +1,20 @@
+@media only screen and (max-width: 768px) {
+  /* For mobile */
+  body {
+    width: 100%;
+    align-items: center;
+  }
+}
+
 body {
-  background-color: yellow;
-};
+  background-color: rgba(86, 86, 106, 0.228);
+}
 
 h4 {
   color: red;
-};
+}
 
+h1 {
+  color: red;
+}
 

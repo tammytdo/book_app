@@ -57,9 +57,10 @@ app.post('/searches', (request, response) => {
 // Book constructor
 function Books(dataObj) {
   this.bookTitle = dataObj.volumeInfo.title || "Title unavailable";
-  // this.bookAuthor = dataObj.volumeInfo.authors || "Author unavailable";
-  // this.publishedDate = dataObj.volumeInfo.publishedDate || "Published Date"; unavailable";
-  // this.thumbnail = dataObj. || "Image unavailable";
+  this.bookAuthor = dataObj.volumeInfo.authors || "Author unavailable";
+  this.publishedDate = dataObj.volumeInfo.publishedDate || "Published Date unavailable";
+  // Come back and edit the rendering
+  this.thumbnail = dataObj.volumeInfo.thumbnail || "Image unavailable";
 };
 
 

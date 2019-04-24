@@ -20,7 +20,26 @@ Express
   
   
 ## Change Log
+April 23, 2019  
 Number and name of feature: Set up  
-Start time: 9:15  
-Finish time: _____  
-Actual time needed to complete: _____  
+Start time: 9:15am    
+Finish time: 10:00am    
+Actual time needed to complete: 45 minutes  
+
+April 23, 2019  
+Number and name of feature: Constructing Books
+Start time: 10:00am    
+Finish time: 1:00pm  
+Actual time needed to complete: 3 hours  
+
+April 24, 2019  
+Number and name of feature: Rendered Book data  
+Start time: 9:00am    
+Finish time: 11:00am    
+Actual time needed to complete: 2 hours  
+
+April 24, 2019  
+Number and name of feature: Mobile first CSS of Home Page. 
+Start time: 11:00am  
+Finish time: 
+Actual time needed to complete:  
