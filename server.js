@@ -31,9 +31,9 @@ app.get('/', (request, response) => {
   response.render('pages/index.ejs');
 })
 
-app.get('/bookSearch', (request, response) => {
-  response.render('pages/searches/new.ejs');
-})
+// app.get('/newBookSearch', (request, response) => {
+//   response.render('pages/searches/new.ejs');
+// })
 
 app.get('/bookData', (request, response) => {
   response.render('pages/index.ejs');
@@ -44,11 +44,10 @@ response.render('pages/index.ejs');
 })
 
 const SQL = {};
-SQL.getLocation = 'SELECT * FROM books WHERE returnedSearches=$1'
-SQL.insertLocation = 'INSERT INTO locations (author, title, isbn, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6)'
+SQL.getBooks = 'SELECT * FROM books WHERE returnedSearches=$1'
+SQL.insertBooks = 'INSERT INTO books (author, title, isbn10, isbn13, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6, $7)'
 
 // Creates a new search to the Google Books API
-
 app.post('/searches', (request, response) => {
   let url = 'https://www.googleapis.com/books/v1/volumes?q=';
   console.log(request.body);
@@ -59,14 +58,19 @@ app.post('/searches', (request, response) => {
       return new Books(item);
     })
     console.log(numBooksReturned);
-    response.render('pages/searches/show.ejs', {data:numBooksReturned});
+    client.query(SQL.insertBooks, [returnedSearches, bookAuthor, publishedDate, isbn10, isbn13, description, thumbnail]);
+    // response.render('pages/searches/show.ejs', {data:numBooksReturned});
+  })
+  .catch((error, response) => {
+    console.error(error);
+    if (response) response.status(500).send('Invalid');
   })
 })
 
 // Catch-all
 
 
-// HELPER FUNCTIONS
+
 // Book constructor
 function Books(dataObj) {
   this.bookTitle = dataObj.volumeInfo.title || "Title unavailable";
@@ -77,6 +81,10 @@ function Books(dataObj) {
   this.description = dataObj.volumeInfo.description || "Description unavailable" 
   this.thumbnail = dataObj.volumeInfo.imageLinks.thumbnail || "Image unavailable";
 };
+
+
+// HELPER FUNCTIONS
+
 
 // function createSearch(request, response) {
 //   response.render('pages/searches/new.ejs');
