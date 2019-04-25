@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/tammytdo/book_app#readme",
   "dependencies": {
+    "dotenv": "^7.0.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "pg": "^7.10.0",
     "superagent": "^5.0.2"
   }
 }

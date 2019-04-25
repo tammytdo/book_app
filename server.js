@@ -1,9 +1,12 @@
 'use strict';
 
+require('dotenv').config();
+
 // Application Dependencies
 const express = require('express');
 const superagent = require('superagent');
 const pg = require('pg');
+
 
 // Application Setup
 const app = express();
@@ -27,32 +30,27 @@ app.get('*', (request, response) => {
   response.render('pages/index.ejs');
 })
 
-app.get('/test', (request, response) => {
+app.get('/bookData', (request, response) => {
   response.render('pages/index.ejs');
 })
+
+
 
 
 // Creates a new search to the Google Books API
 
 app.post('/searches', (request, response) => {
   let url = 'https://www.googleapis.com/books/v1/volumes?q=';
-  superagent.get(`${url}+intitle:${request.body.search.slice(0,9)}`)
+  console.log(request.body);
+  superagent.get(`${url}+intitle:${request.body.search[0]}`)
   .then(result => {
-    // console.log('Result ' + result.body.items[0].volumeInfo.title);
-
     let returnedSearches = result.body.items;
     let numBooksReturned = returnedSearches.map(item => {
       return new Books(item);
     })
-    // console.log(returnedSearches)
-    // console.log('Ten books: ', numBooksReturned[0].bookTitle);
-
-    response.send(numBooksReturned);
-
-
+    console.log(numBooksReturned);
+    response.render('pages/searches/show.ejs', {data:numBooksReturned});
   })
-    // .catch(console.error);
-  // console.log(request.body.search);
 })
 
 // Catch-all
@@ -68,7 +66,7 @@ function Books(dataObj) {
   this.description = dataObj.volumeInfo.description || "Description unavailable" 
   // this.isbn13 = dataObj.volumeInfo.industryIdentifiers[1].identifier || "ISBN13 unavailable";
   // Come back and edit the rendering
-  this.thumbnail = dataObj.volumeInfo.thumbnail || "Image unavailable";
+  this.thumbnail = dataObj.volumeInfo.imageLinks.thumbnail || "Image unavailable";
 };
 
 

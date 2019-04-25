@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Published Date</th>
+      <th>ISBN10</th>
+      <th>ISBN13</th>      
+      <th>Description</th>
+      <th>Thumbnail</th>
+    </tr>
+    <% for(let i = 0; i < data.length; i++){ %>
+    <tr>
+      <td><%= data[i].bookTitle %></td>
+      <td><%= data[i].bookAuthor %></td>
+      <td><%= data[i].publishedDate %></td>
+      <td><%= data[i].isbn10 %></td>
+      <td><%= data[i].isbn13 %></td>
+      <td><%= data[i].desription %></td>
+      <td><%= data[i].thumbnail %></td>
+      <td><a href="/bookData/<%= data[i].id %>">Test #<%=data[i].id %></a></td>
+    </tr>
+    <% }; %>
+  </table>
+</body>
+</html>
