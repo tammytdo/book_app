@@ -26,15 +26,22 @@ app.set('view-engine', 'ejs');
 
 // API Routes
 // Renders the search form
-app.get('*', (request, response) => {
+
+app.get('/', (request, response) => {
   response.render('pages/index.ejs');
+})
+
+app.get('/bookSearch', (request, response) => {
+  response.render('pages/searches/new.ejs');
 })
 
 app.get('/bookData', (request, response) => {
   response.render('pages/index.ejs');
 })
 
-app.get('/bookSearch', createSearch);
+app.get('*', (request, response) => {
+response.render('pages/index.ejs');
+})
 
 const SQL = {};
 SQL.getLocation = 'SELECT * FROM books WHERE returnedSearches=$1'
@@ -71,9 +78,9 @@ function Books(dataObj) {
   this.thumbnail = dataObj.volumeInfo.imageLinks.thumbnail || "Image unavailable";
 };
 
-function createSearch(request, response) {
-  response.render('pages/searches/new.ejs');
-}
+// function createSearch(request, response) {
+//   response.render('pages/searches/new.ejs');
+// }
 
 // No API key required
 // Console.log request.body and request.body.search
