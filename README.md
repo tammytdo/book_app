@@ -41,5 +41,14 @@ Actual time needed to complete: 2 hours
 April 24, 2019  
 Number and name of feature: Mobile first CSS of Home Page. 
 Start time: 11:00am  
-Finish time: 
-Actual time needed to complete:  
+Finish time: 12:30
+Actual time needed to complete: 1 hour 30 minutes
+
+April 24, 2019  
+Number and name of feature: Mobile first CSS of Home Page. 
+Start time: 12:30am  
+Finish time: 01:30pm
+Actual time needed to complete: 1 hour
+
+## Credits and Collaborations
+TA's - Chris Chapman & Jeniffer Piper  
