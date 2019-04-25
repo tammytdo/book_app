@@ -34,8 +34,11 @@ app.get('/bookData', (request, response) => {
   response.render('pages/index.ejs');
 })
 
+app.get('/bookSearch', createSearch);
 
-
+const SQL = {};
+SQL.getLocation = 'SELECT * FROM books WHERE returnedSearches=$1'
+SQL.insertLocation = 'INSERT INTO locations (author, title, isbn, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6)'
 
 // Creates a new search to the Google Books API
 
@@ -61,15 +64,16 @@ app.post('/searches', (request, response) => {
 function Books(dataObj) {
   this.bookTitle = dataObj.volumeInfo.title || "Title unavailable";
   this.bookAuthor = dataObj.volumeInfo.authors || "Author unavailable";
-  this.publishedDate = dataObj.volumeInfo.publishedDate || "Published Date unavailable";
+  this.publishedDate = dataObj.volumeInfo.publishedDate.slice(0, 4) || "Published Date unavailable";
   this.isbn10 = dataObj.volumeInfo.industryIdentifiers[0].identifier || "ISBN10 unavailable";
+  this.isbn13 = dataObj.volumeInfo.industryIdentifiers[1].identifier || "ISBN13 unavailable";
   this.description = dataObj.volumeInfo.description || "Description unavailable" 
-  // this.isbn13 = dataObj.volumeInfo.industryIdentifiers[1].identifier || "ISBN13 unavailable";
-  // Come back and edit the rendering
   this.thumbnail = dataObj.volumeInfo.imageLinks.thumbnail || "Image unavailable";
 };
 
-
+function createSearch(request, response) {
+  response.render('pages/searches/new.ejs');
+}
 
 // No API key required
 // Console.log request.body and request.body.search
