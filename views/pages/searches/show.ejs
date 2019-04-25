@@ -9,25 +9,25 @@
 <body>
   <table>
     <tr>
+      <th>Book Cover</th>
       <th>Title</th>
       <th>Author</th>
       <th>Published Date</th>
       <th>ISBN10</th>
       <th>ISBN13</th>      
       <th>Description</th>
-      <th>Thumbnail</th>
     </tr>
-    <% for(let i = 0; i < data.length; i++){ %>
-    <tr>
-      <td><%= data[i].bookTitle %></td>
-      <td><%= data[i].bookAuthor %></td>
-      <td><%= data[i].publishedDate %></td>
-      <td><%= data[i].isbn10 %></td>
-      <td><%= data[i].isbn13 %></td>
-      <td><%= data[i].desription %></td>
-      <td><%= data[i].thumbnail %></td>
-      <td><a href="/bookData/<%= data[i].id %>">Test #<%=data[i].id %></a></td>
-    </tr>
+    <% for(let i = 0; i < 10; i++){ %>
+      <tr>
+        <td><img src = "<%= data[i].thumbnail %>"></td>
+        <td><%= data[i].bookTitle %></td>
+        <td><%= data[i].bookAuthor %></td>
+        <td><%= data[i].publishedDate %></td>
+        <td><%= data[i].isbn10 %></td>
+        <td><%= data[i].isbn13 %></td>
+        <td><%= data[i].desription %></td>
+        <td><a href="/bookData/<%= data[i].id %>"> Add to My Books Shelf<%=data[i].id %></a></td>
+      </tr>
     <% }; %>
   </table>
 </body>
