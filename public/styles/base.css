@@ -18,3 +18,24 @@ h1 {
   color: red;
 }
 
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  text-align: center;
+  padding: 25px;
+  background-color: cyan;
+}
+
+li > #title-head {
+  font-size: 30px;
+}
+
+#author-head {
+  font-size: 20px;
+}
+
+
