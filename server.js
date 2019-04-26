@@ -6,23 +6,36 @@ require('dotenv').config();
 const express = require('express');
 const superagent = require('superagent');
 const pg = require('pg');
-
+const methodOverride = require('method-override');
 
 // Application Setup
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+//Postgres
 const client = new pg.Client(process.env.DATABASE_URL);
 client.on('error', console.error);
 client.connect();
+
+//SQL
+const SQL = {};
+SQL.getAll = 'SELECT * FROM book;';
+SQL.getById = 'SELECT * FROM saved_books WHERE id=$1;';
 
 app.use(express.static('./public'));
 
 // Application Middleware
 app.use(express.urlencoded({extended: true}));
-
+app.use(methodOverride((request, response) => {
+  if(request.body && request.body._method){
+    let method = request.body._method;
+    delete request.body._method;
+    return method;
+  }
+}))
 // Set the view engine for server-side templating
 app.set('view-engine', 'ejs');
+
 
 // API Routes
 // Renders the search form
@@ -39,13 +52,39 @@ app.get('/bookData', (request, response) => {
   response.render('pages/index.ejs');
 })
 
+// Renders the home page on load //
+
+app.post('/add-book', (request, response) => {
+  console.log(request.body);
+  const body = request.body;
+
+  client.query('INSERT INTO books (author, title, isbn10, isbn13, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6, $7)', [body.bookAuthor, body.bookTitle, body.publishedDate, body.isbn10, body.isbn13, body.description, body.thumbnail]);
+
+  //redirect them to home
+  response.redirect('/');
+})
+
+app.get('/', (request, response) => {
+  client.query(SQL.getAll).then(result =>{
+    response.render('pages/index.ejs', {book: result.rows});
+  })
+    .catch(error => errorHandler(error, response));
+});
+
+app.get('/specificBook/:bookID', (request, response) => {
+  client.query('SELECT * FROM book WHERE id=$1', [request.params.bookID]).then(result =>{
+    console.log(result.rows); 
+    response.render('pages/searches/show.ejs', {book: result.rows[0]});
+  })
+    .catch(error => errorHandler(error, response));
+});
+
 app.get('*', (request, response) => {
 response.render('pages/index.ejs');
 })
 
-const SQL = {};
-SQL.getBooks = 'SELECT * FROM books WHERE returnedSearches=$1'
-SQL.insertBooks = 'INSERT INTO books (author, title, isbn10, isbn13, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6, $7)'
+
+
 
 // Creates a new search to the Google Books API
 app.post('/searches', (request, response) => {
@@ -61,10 +100,7 @@ app.post('/searches', (request, response) => {
     // client.query(SQL.insertBooks, [returnedSearches, bookAuthor, publishedDate, isbn10, isbn13, description, thumbnail]);
     response.render('pages/searches/show.ejs', {data:numBooksReturned});
   })
-  .catch((error, response) => {
-    console.error(error);
-    if (response) response.status(500).send('Invalid');
-  })
+  .catch(error => errorHandler(error, response));
 })
 
 // Catch-all
@@ -85,10 +121,12 @@ function Books(dataObj) {
 
 // HELPER FUNCTIONS
 
-
-// function createSearch(request, response) {
-//   response.render('pages/searches/new.ejs');
-// }
+//handles error
+function errorHandler(error, response){
+  response.render('pages/error.ejs', {status: 500, message: 'Something went wrong.'});
+  console.log('Something went wrong.');
+  console.error(error);
+}
 
 // No API key required
 // Console.log request.body and request.body.search
