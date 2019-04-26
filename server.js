@@ -57,9 +57,9 @@ app.post('/searches', (request, response) => {
     let numBooksReturned = returnedSearches.map(item => {
       return new Books(item);
     })
-    console.log(numBooksReturned);
-    client.query(SQL.insertBooks, [returnedSearches, bookAuthor, publishedDate, isbn10, isbn13, description, thumbnail]);
-    // response.render('pages/searches/show.ejs', {data:numBooksReturned});
+    // console.log(numBooksReturned);
+    // client.query(SQL.insertBooks, [returnedSearches, bookAuthor, publishedDate, isbn10, isbn13, description, thumbnail]);
+    response.render('pages/searches/show.ejs', {data:numBooksReturned});
   })
   .catch((error, response) => {
     console.error(error);
