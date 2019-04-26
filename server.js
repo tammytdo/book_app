@@ -39,21 +39,36 @@ app.set('view-engine', 'ejs');
 
 // API Routes
 // Renders the search form
-
 app.get('/', (request, response) => {
   response.render('pages/index.ejs');
 })
 
 // app.get('/newBookSearch', (request, response) => {
 //   response.render('pages/searches/new.ejs');
-// })
-
+// })1s
 app.get('/bookData', (request, response) => {
   response.render('pages/index.ejs');
 })
 
-// Renders the home page on load //
 
+// Creates a new search to the Google Books API
+app.post('/searches', (request, response) => {
+  let url = 'https://www.googleapis.com/books/v1/volumes?q=';
+  console.log(request.body);
+  // TODO: handle for whether person searches for title or author
+  superagent.get(`${url}+intitle:${request.body.searchField}`).then(result => {
+    // TODO: if statement for whether results = 0
+    let returnedSearches = result.body.items;
+    let numBooksReturned = returnedSearches.map(item => {
+      return new Books(item);
+    })
+    response.render('pages/searches/new.ejs', {data:numBooksReturned});
+  })
+  .catch(error => errorHandler(error, response));
+})
+
+// Renders the home page on load //
+// add-book puts book into the database
 app.post('/add-book', (request, response) => {
   console.log(request.body);
   const body = request.body;
@@ -66,15 +81,15 @@ app.post('/add-book', (request, response) => {
 
 app.get('/', (request, response) => {
   client.query(SQL.getAll).then(result =>{
-    response.render('pages/index.ejs', {book: result.rows});
+    response.render('pages/index.ejs', {books: result.rows});
   })
     .catch(error => errorHandler(error, response));
 });
 
 app.get('/specificBook/:bookID', (request, response) => {
-  client.query('SELECT * FROM book WHERE id=$1', [request.params.bookID]).then(result =>{
+  client.query('SELECT * FROM books WHERE id=$1', [request.params.bookID]).then(result =>{
     console.log(result.rows); 
-    response.render('pages/searches/show.ejs', {book: result.rows[0]});
+    response.render('pages/searches/index.ejs', {books: result.rows[0]});
   })
     .catch(error => errorHandler(error, response));
 });
@@ -84,25 +99,6 @@ response.render('pages/index.ejs');
 })
 
 
-
-
-// Creates a new search to the Google Books API
-app.post('/searches', (request, response) => {
-  let url = 'https://www.googleapis.com/books/v1/volumes?q=';
-  console.log(request.body);
-  superagent.get(`${url}+intitle:${request.body.search[0]}`)
-  .then(result => {
-    let returnedSearches = result.body.items;
-    let numBooksReturned = returnedSearches.map(item => {
-      return new Books(item);
-    })
-    // console.log(numBooksReturned);
-    // client.query(SQL.insertBooks, [returnedSearches, bookAuthor, publishedDate, isbn10, isbn13, description, thumbnail]);
-    response.render('pages/searches/show.ejs', {data:numBooksReturned});
-  })
-  .catch(error => errorHandler(error, response));
-})
-
 // Catch-all
 
 
@@ -111,7 +107,7 @@ app.post('/searches', (request, response) => {
 function Books(dataObj) {
   this.bookTitle = dataObj.volumeInfo.title || "Title unavailable";
   this.bookAuthor = dataObj.volumeInfo.authors || "Author unavailable";
-  this.publishedDate = dataObj.volumeInfo.publishedDate.slice(0, 4) || "Published Date unavailable";
+  this.publishedDate = dataObj.volumeInfo.publishedDate.substring(0, 4) || "Published Date unavailable";
   this.isbn10 = dataObj.volumeInfo.industryIdentifiers[0].identifier || "ISBN10 unavailable";
   this.isbn13 = dataObj.volumeInfo.industryIdentifiers[1].identifier || "ISBN13 unavailable";
   this.description = dataObj.volumeInfo.description || "Description unavailable" 
