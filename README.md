@@ -33,7 +33,7 @@ Finish time: 1:00pm
 Actual time needed to complete: 3 hours  
 
 April 24, 2019  
-Number and name of feature: Rendered Book data  
+Number and name of feature: Rendered Book data to webpage 
 Start time: 9:00am    
 Finish time: 11:00am    
 Actual time needed to complete: 2 hours  
@@ -49,6 +49,20 @@ Number and name of feature: Mobile first CSS of Home Page.
 Start time: 12:30am  
 Finish time: 01:30pm
 Actual time needed to complete: 1 hour
+
+April 25, 2019  
+Number and name of feature: Rendered Book data to database
+Start time: 9:00am
+Finish time: 12:00pm
+Actual time needed to complete: 3 hours
+
+April 26, 2019  
+Number and name of feature: Error catch
+Start time: 9:00am 
+Finish time: 
+Actual time needed to complete: 
+ 
+
 
 ## Credits and Collaborations
 TA's - Chris Chapman & Jeniffer Piper  

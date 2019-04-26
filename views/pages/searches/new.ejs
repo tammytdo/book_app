@@ -5,38 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <link rel="stylesheet" href="/styles/base.css" type="text/css">
 </head>
 <body>
-    <header>
-      <!-- Logo Here -->
-      <h1>Book Shelf</h1>
-      
-    </header>
-
-    <main>
-      <h3>What would you like to search?</h3>
-      
-      <h3>Search by</h3>
-      <form action="/searches" method="post">
-        <input type="text" name="search" placeholder="Enter a title or author" required>
-        <!-- Radio button for Title -->
-        <fieldset>
-          <label for="title">
-            <span>Title</span>
-            <input type="radio" name="search" value="title" required>
-          </label>
-        </fieldset>
-
-        <!-- Radio button for Author -->
-        <fieldset>
-          <label for="author">
-            <span>Author</span>
-            <input type="radio" name="search" value="author" required>
-          </label>
-        </fieldset>
-
-        <button type="submit">Find My Book</button>
-      </form>
-    </main>
-
-  </body>
+    <% console.log(data[0]) %>
+    <ul>
+        <% for(var i = 0; i < 10; i++){ %>
+            <li><p id="title-head"><%=data[i].bookTitle%> </p>
+                <p id="author-head"><%=data[i].bookAuthor%></p>
+                <p><%=data[i].description%></p>
+                <img src = "<%=data[i].thumbnail%>">
+                <form action="/add-book" method="POST">
+                    <input type="hidden" name = "title" value="<%=data[i].bookTitle %>"> 
+                    <input type="hidden" name = "authors" value="<%=data[i].bookAuthors %>"> 
+                    <input type="hidden" name = "description" value="<%=data[i].description %>"> 
+                    <input type="hidden" name = "image_link" value="<%=data[i].thumbnail %>"> 
+                    <input type="hidden" name = "isbn10" value="<%=data[i].isbn10 %>"> 
+                    <input type="hidden" name = "isbn13" value="<%=data[i].isbn13 %>"> 
+                    <input type="text" name = "bookshelf" value="insert bookshelf here"> 
+                    <input type="submit" value="Add to Database">
+                </form>
+            </li>
+            <% } %>
+        </ul>
+</body>
+</html>
