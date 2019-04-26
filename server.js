@@ -55,6 +55,7 @@ app.get('/bookData', (request, response) => {
 app.post('/searches', (request, response) => {
   let url = 'https://www.googleapis.com/books/v1/volumes?q=';
   console.log(request.body);
+
   // TODO: handle for whether person searches for title or author
   superagent.get(`${url}+intitle:${request.body.searchField}`).then(result => {
     // TODO: if statement for whether results = 0
@@ -65,7 +66,32 @@ app.post('/searches', (request, response) => {
     response.render('pages/searches/new.ejs', {data:numBooksReturned});
   })
   .catch(error => errorHandler(error, response));
+
 })
+
+  // Strategies we tried for handling a search for title vs author.
+  // new idea start
+  // const url = `https://www.googleapis.com/books/v1/volumes?q=`;
+  // const radioSelection = request.body.value;
+  // console.log(radioSelection);
+
+  // const query = request.body.searchField;
+  // console.log(query);
+
+  // if (radioSelection === 'title') {
+  //   superagent.get(`${url}+intitle:${query}`).then(result => {
+  //   let returnedSearches = result.body.items;
+  //   let numBooksReturned = returnedSearches.map(item => {
+  //     return new Books(item);
+  //   })
+
+  // if (radioSelection === 'author') {
+  //   superagent.get(`${url}+intitle:${query}`).then(result => {
+  //   let returnedSearches = result.body.items;
+  //   let numBooksReturned = returnedSearches.map(item => {
+  //     return new Books(item);
+  //   })
+
 
 // Renders the home page on load //
 // add-book puts book into the database
@@ -86,8 +112,9 @@ app.get('/', (request, response) => {
     .catch(error => errorHandler(error, response));
 });
 
-app.get('/specificBook/:bookID', (request, response) => {
-  client.query('SELECT * FROM books WHERE id=$1', [request.params.bookID]).then(result =>{
+app.get('/specificBook/books/:id', (request, response) => {
+  // double check formatting for "request.params.booksID]"
+  client.query('SELECT * FROM books WHERE id=$1', [request.params.booksID]).then(result =>{
     console.log(result.rows); 
     response.render('pages/searches/index.ejs', {books: result.rows[0]});
   })
