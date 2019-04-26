@@ -154,4 +154,4 @@ function errorHandler(error, response){
 // No API key required
 // Console.log request.body and request.body.search
 
-app.listen(PORT, () => console.log('app is up on port ' + PORT));
+app.listen(PORT, () => console.log('app is up on port ' + PORT));  
