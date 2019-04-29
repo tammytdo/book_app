@@ -39,4 +39,13 @@ li > #title-head {
   font-size: 20px;
 }
 
+main {
+  text-align: center;
+}
+
+fieldset {
+  padding-left: 25%;
+  padding-right: 25%;
+}
+
 

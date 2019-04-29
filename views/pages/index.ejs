@@ -8,6 +8,7 @@
   <body>
       <header>
         <!-- Logo Here -->
+        <% include searches/new %>
         <h1>Book Shelf</h1>
         <p>Book Count: <%=books.length%></p>
         <% for(var i = 0; i < books.length; i++){ %>
@@ -19,7 +20,6 @@
           </li>
         <% } %>
       </header>
-      <% include searches/new %>
 
     </body>
   
