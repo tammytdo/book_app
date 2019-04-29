@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -23,4 +24,55 @@
 
     </body>
   
+=======
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Book Shelf</title>
+    <link rel="stylesheet" href="/styles/base.css" type="text/css">
+    <link rel="stylesheet" href="/styles/modules.css" type="text/css">
+  </head>
+  <body>
+      <header>
+        <!-- Logo Here -->
+        <h1>Book Shelf</h1>
+        <p>Book Count: <%=books.length%></p>
+        <% for(var i = 0; i < books.length; i++){ %>
+          <li>
+            <img id="book-shelf-image" src = "<%=books[i].image_url%>">
+            <span id="title-head"><%=books[i].title%> </span>
+            <span id="author-head">By: <%=books[i].author%></span>
+          </li>
+        <% } %>
+      </header>
+  
+      <main>
+        <h2>THIS IS OBVIOUS</h2>
+        <h3>Search by</h3>
+        <form action="/searches" method="post">
+          <input type="text" name="searchField" placeholder="Enter a title or author" required>
+          <fieldset>
+            <label for="title">
+              <span>Title</span>
+              <input type="radio" name="titleOrAuthor" value="title" required>
+            </label>
+          </fieldset>
+  
+          <fieldset>
+            <label for="author">
+              <span>Author</span>
+              <input type="radio" name="titleOrAuthor" value="author" required>
+            </label>
+          </fieldset>
+  
+          <button type="submit">Find My Book</button>
+        </form>
+
+        <h2>Books added to my bookshelf (database) will be rendered here.</h5>
+
+      </main>
+  
+    </body>
+  
+>>>>>>> 9679b38cf638f10dff17feb599197a0e44479413
 </html>

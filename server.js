@@ -38,14 +38,56 @@ app.set('view-engine', 'ejs');
 
 // app.get('/newBookSearch', (request, response) => {
 //   response.render('pages/searches/new.ejs');
-// })
-
+// })1s
 app.get('/bookData', (request, response) => {
   response.render('pages/index.ejs');
 })
 
-// Renders the home page on load //
 
+// Creates a new search to the Google Books API
+app.post('/searches', (request, response) => {
+  let url = 'https://www.googleapis.com/books/v1/volumes?q=';
+  console.log(request.body);
+
+  // TODO: handle for whether person searches for title or author
+  superagent.get(`${url}+intitle:${request.body.searchField}`).then(result => {
+    // TODO: if statement for whether results = 0
+    let returnedSearches = result.body.items;
+    let numBooksReturned = returnedSearches.map(item => {
+      return new Books(item);
+    })
+    response.render('pages/searches/new.ejs', {data:numBooksReturned});
+  })
+  .catch(error => errorHandler(error, response));
+
+})
+
+  // Strategies we tried for handling a search for title vs author.
+  // new idea start
+  // const url = `https://www.googleapis.com/books/v1/volumes?q=`;
+  // const radioSelection = request.body.value;
+  // console.log(radioSelection);
+
+  // const query = request.body.searchField;
+  // console.log(query);
+
+  // if (radioSelection === 'title') {
+  //   superagent.get(`${url}+intitle:${query}`).then(result => {
+  //   let returnedSearches = result.body.items;
+  //   let numBooksReturned = returnedSearches.map(item => {
+  //     return new Books(item);
+  //   })
+
+  // if (radioSelection === 'author') {
+  //   superagent.get(`${url}+intitle:${query}`).then(result => {
+  //   let returnedSearches = result.body.items;
+  //   let numBooksReturned = returnedSearches.map(item => {
+  //     return new Books(item);
+  //   })
+
+
+// Renders the home page on load //
+// add-book puts book into the database
 app.post('/add-book', (request, response) => {
   const body = request.body;
   client.query('INSERT INTO books (author, title, isbn10, isbn13, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6, $7)', 
@@ -73,6 +115,15 @@ app.get('/books/:id', (request, response) => {
     .catch(error => errorHandler(error, response));
 });
 
+<<<<<<< HEAD
+=======
+app.get('*', (request, response) => {
+  client.query(SQL.getAll).then(result =>{
+    response.render('pages/index.ejs', {books: result.rows});
+  })
+    .catch(error => errorHandler(error, response));
+});
+>>>>>>> 9679b38cf638f10dff17feb599197a0e44479413
 
 // Creates a new search to the Google Books API
 app.post('/searches', (request, response) => {
@@ -90,10 +141,13 @@ app.post('/searches', (request, response) => {
 })
 
 // Catch-all
+<<<<<<< HEAD
 app.get('*', (request, response) => {
   response.send('Not Found');
 });
 
+=======
+>>>>>>> 9679b38cf638f10dff17feb599197a0e44479413
 
 // Book constructor
 function Books(dataObj) {
@@ -110,7 +164,6 @@ function Books(dataObj) {
     if (industryIdentifiers[i].type === 'ISBN_13')
       this.isbn13 = industryIdentifiers[i].identifier;
   }  
-  
   this.description = dataObj.volumeInfo.description || "Description unavailable" 
   this.thumbnail = dataObj.volumeInfo.imageLinks.thumbnail || "Image unavailable";
 };
@@ -128,4 +181,4 @@ function errorHandler(error, response){
 // No API key required
 // Console.log request.body and request.body.search
 
-app.listen(PORT, () => console.log('app is up on port ' + PORT));
+app.listen(PORT, () => console.log('app is up on port ' + PORT));  
