@@ -19,7 +19,7 @@ client.connect();
 
 //SQL
 const SQL = {};
-SQL.getAll = 'SELECT * FROM book;';
+SQL.getAll = 'SELECT * FROM books;';
 SQL.getById = 'SELECT * FROM saved_books WHERE id=$1;';
 
 app.use(express.static('./public'));
@@ -35,13 +35,6 @@ app.use(methodOverride((request, response) => {
 }))
 // Set the view engine for server-side templating
 app.set('view-engine', 'ejs');
-
-
-// API Routes
-// Renders the search form
-app.get('/', (request, response) => {
-  response.render('pages/index.ejs');
-})
 
 // app.get('/newBookSearch', (request, response) => {
 //   response.render('pages/searches/new.ejs');
@@ -96,10 +89,9 @@ app.post('/searches', (request, response) => {
 // Renders the home page on load //
 // add-book puts book into the database
 app.post('/add-book', (request, response) => {
-  console.log(request.body);
   const body = request.body;
-
-  client.query('INSERT INTO books (author, title, isbn10, isbn13, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6, $7)', [body.bookAuthor, body.bookTitle, body.publishedDate, body.isbn10, body.isbn13, body.description, body.thumbnail]);
+  client.query('INSERT INTO books (author, title, isbn10, isbn13, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6, $7)', 
+  [body.author, body.title, body.isbn10, body.isbn13, body.image_link, body.description, body.bookshelf]);
 
   //redirect them to home
   response.redirect('/');
@@ -112,31 +104,52 @@ app.get('/', (request, response) => {
     .catch(error => errorHandler(error, response));
 });
 
-app.get('/specificBook/books/:id', (request, response) => {
-  // double check formatting for "request.params.booksID]"
-  client.query('SELECT * FROM books WHERE id=$1', [request.params.booksID]).then(result =>{
-    console.log(result.rows); 
-    response.render('pages/searches/index.ejs', {books: result.rows[0]});
+app.get('/specificBook/:bookID', (request, response) => {
+  client.query('SELECT * FROM book WHERE id=$1', [request.params.bookID]).then(result =>{
+    response.render('pages/searches/show.ejs', {book: result.rows[0]});
   })
     .catch(error => errorHandler(error, response));
 });
 
 app.get('*', (request, response) => {
-response.render('pages/index.ejs');
+  client.query(SQL.getAll).then(result =>{
+    response.render('pages/index.ejs', {books: result.rows});
+  })
+    .catch(error => errorHandler(error, response));
+});
+
+// Creates a new search to the Google Books API
+app.post('/searches', (request, response) => {
+  let url = 'https://www.googleapis.com/books/v1/volumes?q=';
+  superagent.get(`${url}+intitle:${request.body.search[0]}`)
+  .then(result => {
+    let returnedSearches = result.body.items;
+    let numBooksReturned = returnedSearches.map(item => {
+      return new Books(item);
+    })
+    // client.query(SQL.insertBooks, [returnedSearches, bookAuthor, publishedDate, isbn10, isbn13, description, thumbnail]);
+    response.render('pages/searches/show.ejs', {data:numBooksReturned});
+  })
+  .catch(error => errorHandler(error, response));
 })
 
-
 // Catch-all
-
-
 
 // Book constructor
 function Books(dataObj) {
   this.bookTitle = dataObj.volumeInfo.title || "Title unavailable";
   this.bookAuthor = dataObj.volumeInfo.authors || "Author unavailable";
-  this.publishedDate = dataObj.volumeInfo.publishedDate.substring(0, 4) || "Published Date unavailable";
-  this.isbn10 = dataObj.volumeInfo.industryIdentifiers[0].identifier || "ISBN10 unavailable";
-  this.isbn13 = dataObj.volumeInfo.industryIdentifiers[1].identifier || "ISBN13 unavailable";
+  this.publishedDate = dataObj.volumeInfo.publishedDate.slice(0, 4) || "Published Date unavailable";
+  this.isbn10 = "ISBN10 unavailable";
+  this.isbn13 = "ISBN13 unavailable";
+
+  let industryIdentifiers = dataObj.volumeInfo.industryIdentifiers;
+  for (let i = 0; i < industryIdentifiers.length; i++) {
+    if (industryIdentifiers[i].type === 'ISBN_10')
+      this.isbn10 = industryIdentifiers[i].identifier;
+    if (industryIdentifiers[i].type === 'ISBN_13')
+      this.isbn13 = industryIdentifiers[i].identifier;
+  }  
   this.description = dataObj.volumeInfo.description || "Description unavailable" 
   this.thumbnail = dataObj.volumeInfo.imageLinks.thumbnail || "Image unavailable";
 };
