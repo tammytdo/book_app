@@ -15,6 +15,7 @@
             <img id="book-shelf-image" src = "<%=books[i].image_url%>">
             <span id="title-head"><%=books[i].title%> </span>
             <span id="author-head">By: <%=books[i].author%></span>
+            <a href=<%= `/books/${books[i].id}` %>>View Details</a>  
           </li>
         <% } %>
       </header>

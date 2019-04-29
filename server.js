@@ -62,8 +62,12 @@ app.get('/', (request, response) => {
     .catch(error => errorHandler(error, response));
 });
 
-app.get('/books', (request, response) => {
-  client.query('SELECT * FROM books').then(result =>{
+app.get('/books/:id', (request, response) => {
+  client.query('SELECT * FROM books WHERE id=$1', [request.params.id]).then(result =>{
+    if (result.rows.length === 0) {
+      response.status(404);
+      response.send('Not Found');
+    }
     response.render('pages/books/show.ejs', {data: result.rows[0]});
   })
     .catch(error => errorHandler(error, response));

@@ -9,8 +9,14 @@ fieldset {
 }
 
 section {
+  margin: 20px auto;
   width: 80%;
   text-align: center;
   border: 1px solid black;
-  padding: 29px;
+  padding: 30px;
+  background: white;
+}
+
+#detail_title {
+  font-weight: bold;
 }
