@@ -15,36 +15,12 @@
             <img id="book-shelf-image" src = "<%=books[i].image_url%>">
             <span id="title-head"><%=books[i].title%> </span>
             <span id="author-head">By: <%=books[i].author%></span>
+            <a href=<%= `/books/${books[i].id}` %>>View Details</a>  
           </li>
         <% } %>
       </header>
-  
-      <main>
-        <h2>THIS IS OBVIOUS</h2>
-        <h3>Search by</h3>
-        <form action="/searches" method="post">
-          <input type="text" name="searchField" placeholder="Enter a title or author" required>
-          <fieldset>
-            <label for="title">
-              <span>Title</span>
-              <input type="radio" name="titleOrAuthor" value="title" required>
-            </label>
-          </fieldset>
-  
-          <fieldset>
-            <label for="author">
-              <span>Author</span>
-              <input type="radio" name="titleOrAuthor" value="author" required>
-            </label>
-          </fieldset>
-  
-          <button type="submit">Find My Book</button>
-        </form>
+      <% include searches/new %>
 
-        <h2>Books added to my bookshelf (database) will be rendered here.</h5>
-
-      </main>
-  
     </body>
   
 </html>

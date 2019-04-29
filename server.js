@@ -104,19 +104,17 @@ app.get('/', (request, response) => {
     .catch(error => errorHandler(error, response));
 });
 
-app.get('/specificBook/:bookID', (request, response) => {
-  client.query('SELECT * FROM book WHERE id=$1', [request.params.bookID]).then(result =>{
-    response.render('pages/searches/show.ejs', {book: result.rows[0]});
+app.get('/books/:id', (request, response) => {
+  client.query('SELECT * FROM books WHERE id=$1', [request.params.id]).then(result =>{
+    if (result.rows.length === 0) {
+      response.status(404);
+      response.send('Not Found');
+    }
+    response.render('pages/books/show.ejs', {data: result.rows[0]});
   })
     .catch(error => errorHandler(error, response));
 });
 
-app.get('*', (request, response) => {
-  client.query(SQL.getAll).then(result =>{
-    response.render('pages/index.ejs', {books: result.rows});
-  })
-    .catch(error => errorHandler(error, response));
-});
 
 // Creates a new search to the Google Books API
 app.post('/searches', (request, response) => {
@@ -134,6 +132,10 @@ app.post('/searches', (request, response) => {
 })
 
 // Catch-all
+app.get('*', (request, response) => {
+  response.send('Not Found');
+});
+
 
 // Book constructor
 function Books(dataObj) {

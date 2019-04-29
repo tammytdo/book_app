@@ -2,3 +2,21 @@
   width: 75px;
   height: 100px;
 }
+
+fieldset {
+  display: block;
+  width: 50%;
+}
+
+section {
+  margin: 20px auto;
+  width: 80%;
+  text-align: center;
+  border: 1px solid black;
+  padding: 30px;
+  background: white;
+}
+
+#detail_title {
+  font-weight: bold;
+}
