@@ -115,15 +115,6 @@ app.get('/books/:id', (request, response) => {
     .catch(error => errorHandler(error, response));
 });
 
-<<<<<<< HEAD
-=======
-app.get('*', (request, response) => {
-  client.query(SQL.getAll).then(result =>{
-    response.render('pages/index.ejs', {books: result.rows});
-  })
-    .catch(error => errorHandler(error, response));
-});
->>>>>>> 9679b38cf638f10dff17feb599197a0e44479413
 
 // Creates a new search to the Google Books API
 app.post('/searches', (request, response) => {
@@ -141,13 +132,10 @@ app.post('/searches', (request, response) => {
 })
 
 // Catch-all
-<<<<<<< HEAD
 app.get('*', (request, response) => {
   response.send('Not Found');
 });
 
-=======
->>>>>>> 9679b38cf638f10dff17feb599197a0e44479413
 
 // Book constructor
 function Books(dataObj) {

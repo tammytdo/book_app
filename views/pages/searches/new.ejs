@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <main>
     <h3>What would you like to search?</h3>
     
@@ -22,37 +21,3 @@
       </form>
     </fieldset>
   </main>
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <link rel="stylesheet" href="/styles/base.css" type="text/css">
-</head>
-<body>
-    <% console.log(data[0]) %>
-    <ul>
-        <% for(var i = 0; i < 10; i++){ %>
-            <li><p id="title-head"><%=data[i].bookTitle%> </p>
-                <p id="author-head"><%=data[i].bookAuthor%></p>
-                <p><%=data[i].description%></p>
-                <img src = "<%=data[i].thumbnail%>">
-                <form action="/add-book" method="POST">
-                    <input type="hidden" name = "title" value="<%=data[i].bookTitle %>"> 
-                    <input type="hidden" name = "authors" value="<%=data[i].bookAuthors %>"> 
-                    <input type="hidden" name = "description" value="<%=data[i].description %>"> 
-                    <input type="hidden" name = "image_link" value="<%=data[i].thumbnail %>"> 
-                    <input type="hidden" name = "isbn10" value="<%=data[i].isbn10 %>"> 
-                    <input type="hidden" name = "isbn13" value="<%=data[i].isbn13 %>"> 
-                    <input type="text" name = "bookshelf" value="insert bookshelf here"> 
-                    <input type="submit" value="Add to Database">
-                </form>
-            </li>
-            <% } %>
-        </ul>
-</body>
-</html>
->>>>>>> 9679b38cf638f10dff17feb599197a0e44479413
