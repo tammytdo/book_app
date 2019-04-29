@@ -3,12 +3,20 @@
   <head>
     <title>Book Shelf</title>
     <link rel="stylesheet" href="/styles/base.css" type="text/css">
+    <link rel="stylesheet" href="/styles/modules.css" type="text/css">
   </head>
   <body>
       <header>
         <!-- Logo Here -->
         <h1>Book Shelf</h1>
-        
+        <p>Book Count: <%=books.length%></p>
+        <% for(var i = 0; i < books.length; i++){ %>
+          <li>
+            <img id="book-shelf-image" src = "<%=books[i].image_url%>">
+            <span id="title-head"><%=books[i].title%> </span>
+            <span id="author-head">By: <%=books[i].author%></span>
+          </li>
+        <% } %>
       </header>
   
       <main>

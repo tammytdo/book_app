@@ -25,7 +25,8 @@ ul {
 }
 
 li {
-  text-align: center;
+  /* text-align: center; */
+  list-style: none;
   padding: 25px;
   background-color: cyan;
 }
