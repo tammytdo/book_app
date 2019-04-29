@@ -1,46 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-<body>
-    <header>
-      <!-- Logo Here -->
-      <h1>Book Shelf</h1>
-      
-    </header>
-
-    <main>
-      <h3>What would you like to search?</h3>
-      
-      <h3>Search by</h3>
+<main>
+    <h3>What would you like to search?</h3>
+    
+    <h3>Search by</h3>
+    <fieldset>
       <form action="/searches" method="post">
         <input type="text" name="search" placeholder="Enter a title or author" required>
         <!-- Radio button for Title -->
-        <fieldset>
-          <label for="title">
-            <span>Title</span>
-            <input type="radio" name="search" value="title" required>
-          </label>
-        </fieldset>
+        <label for="title">
+          <span>Title</span>
+          <input type="radio" name="search" value="title" required>
+        </label>
 
         <!-- Radio button for Author -->
-        <fieldset>
-          <label for="author">
-            <span>Author</span>
-            <input type="radio" name="search" value="author" required>
-          </label>
-        </fieldset>
+        <label for="author">
+          <span>Author</span>
+          <input type="radio" name="search" value="author" required>
+        </label>
 
         <button type="submit">Find My Book</button>
       </form>
-    </main>
-
-    <section id="">
-      
-    </section>
-
-  </body>
+    </fieldset>
+  </main>

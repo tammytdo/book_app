@@ -18,33 +18,8 @@
           </li>
         <% } %>
       </header>
-  
-      <main>
-        <h3>What would you like to search?</h3>
-        
-        <h3>Search by</h3>
-        <form action="/searches" method="post">
-          <input type="text" name="search" placeholder="Enter a title or author" required>
-          <!-- Radio button for Title -->
-          <fieldset>
-            <label for="title">
-              <span>Title</span>
-              <input type="radio" name="search" value="title" required>
-            </label>
-          </fieldset>
-  
-          <!-- Radio button for Author -->
-          <fieldset>
-            <label for="author">
-              <span>Author</span>
-              <input type="radio" name="search" value="author" required>
-            </label>
-          </fieldset>
-  
-          <button type="submit">Find My Book</button>
-        </form>
-      </main>
-  
+      <% include searches/new %>
+
     </body>
   
 </html>
